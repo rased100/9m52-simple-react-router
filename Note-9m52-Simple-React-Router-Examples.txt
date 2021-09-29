@@ -1,0 +1,437 @@
+						MODULE = 9m52-Simple-React-Router-Examples
+
+
+
+
+
+
+
+			module : 52-1 Module Introduction, install React Router, Project Setup
+
+
+
+
+
+
+	react router:		[ like gmail chande without reload ]
+
+		https://reactrouter.com/
+
+			>>>	web 
+		
+			1. npm install react-router-dom
+
+
+
+
+
+.end--------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+			madule : 52-2 Create Simple Route and simple router setup
+
+
+	5 ta simple kaj:
+
+      <BrowserRouter>
+        <Switch>
+          <Route path="/home">
+            <Home></Home>
+          </Route>
+        </Switch>
+      </BrowserRouter>
+
+-----
+
+
+
+      <BrowserRouter> </BrowserRouter>
+
+      <Switch> </Switch>
+
+
+      <BrowserRouter>
+        <Switch>
+
+        </Switch>
+      </BrowserRouter>
+
+
+-------
+
+
+function App() {
+  return (
+    <div className="App">
+      <BrowserRouter>
+        <Switch>
+          <Route path="/home">
+            <Home></Home>
+          </Route>
+          <Route path="/about">
+            <About></About>
+          </Route>
+          <Route path="friends">
+            <Friends></Friends>
+          </Route>
+          <Route exact path="/">	[ http://localhost:3000 ]		exact na thakle  	http://localhost:3000/kljflkjjsd	
+            <Home></Home>		[ This is home ]						otp = This is home
+          </Route>
+          <Route>
+            <NotFound></NotFound>
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    </div>
+  );
+}
+
+
+
+	>>>   	http://localhost:3000/home
+
+			otp	>>>	This is home
+
+
+	>>>   	http://localhost:3000/friends
+
+			otp	>>>	This is Friends
+
+
+	>>>   	http://localhost:3000
+
+			otp	>>>	Page not Found
+					Dont ask me about this page.
+
+	>>>   	http://localhost:3000/jkldsjfl
+
+			otp	>>>	Page not Found
+					Dont ask me about this page.
+
+
+
+
+
+
+
+.end--------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+			madule : 52-3 Load Users, display users, style users
+
+
+
+
+	seen video and work .  nothing to note
+
+
+
+.end--------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+			madule : 52-4 Recap Router, route, path, component, not found, exact
+
+
+
+
+	BrowserRouter as Router:
+
+		BrowserRouter bar bar na likhe Router likha jabe. 
+
+
+
+------
+
+
+          <Route exact path="/">
+            <Home></Home>
+          </Route>
+
+
+------
+
+          <Route path="*">		[ path = *	eta hosse onno sob kisu ]
+            <NotFound></NotFound>
+          </Route>
+
+-------
+
+.end--------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+			madule : 52-5 Navigate Pages, set header, Create Link, display active route
+
+
+
+
+	<Link to="/friends">Friends</Link>:
+	-----------------------------------
+
+		<a> = use korle page reload hoy
+
+		<Link> = use korke page realod na hoye change hoy
+
+
+
+
+<a> use korle bar bar reload hoy. <Link> use korte hoy:
+
+      	<a href="/home">Home</a>
+     	<a href="/friends">Friends</a>			[ href="" ] 
+      	<a href="/about">About</a>
+
+
+
+<Link> use korle bar bar reload hoy na:
+
+        <Link to="/home">Home</Link>
+        <Link to="/friends">Friends</Link>		[ to="" ]
+        <Link to="/about">About</Link>
+
+
+
+
+	NavLink:
+
+		<NavLink to="/home">Home</NavLink>
+        	<NavLink to="/friends">Friends</NavLink>
+        	<NavLink to="/about">About</NavLink>
+
+
+
+
+	activeStyle: 					[ konta active ase setar style change hobe ]
+
+    		const style = {
+        		fontWeight: "bold",
+        		color: "red"
+    		};
+
+
+            <NavLink activeStyle={style} to="/home">Home</NavLink>
+            <NavLink activeStyle={style} to="/friends">Friends</NavLink>
+            <NavLink activeStyle={style} to="/about">About</NavLink>
+	
+
+
+
+
+	###	Link or NavLink Router er vitor e use korte hoy.
+
+
+
+.end--------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+			madule : 52-6 Create route with some fixed and some dynamic part
+
+
+
+
+
+	path="/friend/:friendId"		[ : er por jeta thakbe seta vari korbe ]
+
+		<Route path="/friend/:friendId">
+        	<FriendDetail></FriendDetail>
+        	</Route>
+
+
+		path="/friend/1"
+
+				otp: friend detail coming soon
+
+		path="/friend/2"
+
+				otp: friend detail coming soon
+
+		path="/friend/dksfjlj"				[ friend/  er por er ongsho change hole show korbe ]
+
+				otp: friend detail coming soon
+
+
+
+
+
+.end--------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+			madule : 52-7 React route parameter and load data based on dynamic route
+
+
+
+	ctrl + p 	=  find components
+
+
+
+
+
+5:00s	useParams:
+	---------
+
+
+-------
+
+
+
+<p>{friend.company?.name}</p>:
+------------------------------
+
+
+
+const FriendDetail = () => {
+    const { friendId } = useParams();
+    const [friend, setFriend] = useState({});
+    useEffect(() => {
+        const url = `https://jsonplaceholder.typicode.com/users/${friendId}`;
+
+        fetch(url)
+            .then(res => res.json())
+            .then(data => setFriend(data))
+    }, [])
+    return (
+        <div>
+            <h3>Detail of: {friendId}</h3>
+            <h1>{friend.name}</h1>
+            <h2>{friend.phone}</h2>
+            <p>{friend.company?.name}</p>					###	?   <p>{friend.company?.name}</p>
+        </div>										--		      ----
+    );
+};
+
+
+company?.name:
+-------------
+first time data load hoyar somoy
+
+	company = undefined
+
+tai company.name = cannot read property of company undefined.
+
+	?  tai conditional use korte hobe
+
+
+----------
+
+
+.end--------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+			madule : 52-8 How to navigate fixed or dynamic route using a button click
+
+
+button click:
+-------------
+
+
+            <Link to={url}>
+                <button>Visit Me</button>
+            </Link>
+
+
+
+----
+
+const Friend = (props) => {
+    const { id, name, phone, website, address } = props.friend;
+    const history = useHistory();							### useHistory();
+
+    const url = `/friend/${id}`;
+
+    const handleFriendClick = () => {							### history.push('/home')
+        history.push('/home')
+    }
+    return (
+        <div className="friendStyle">
+            <h2>I am : {name} {id}</h2>
+            <h5>call me: {phone}</h5>
+            <p>visit me: {website}</p>
+            <p><small>I live in: {address.city}</small></p>
+            <Link to={url}>Visit me</Link>
+            <br />
+            <Link to={url}>
+                <button>Visit Me</button>
+            </Link>
+            <br />
+            <button onClick={handleFriendClick}>Visit me 2</button>			### onClick
+        </div>
+    );
+};
+
+
+
+
+
+.end--------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+			madule : 52-9 Module Summary and Recap React Route for Posts
+
+
+
+	see and work
+
+
+
+.end------------------------------------------------------ module --------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
